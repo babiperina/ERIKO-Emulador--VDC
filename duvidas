@@ -5,9 +5,13 @@ Tamanho que a CPU consegue representar.
 
 2) Parser, o que fazer com ele?
 Pegar o arquivo, extrair as instruções, manda pra um encoder(pega as informações que o parser extraiu e codifica de acordo com o tamanho da palavra), que manda pro módulo de E/S, que vai armazenar temporariamente essas informações num Buffer.
+2.1) Encoder?
+"mov 0x0000001, 2"
+
 
 3) Buffer? Onde fica? Pra que serve?
 3.1) A instrução entra codificada no buffer ou não?
 O buffer faz parte do módulo de E/S. 
 
 3) Memória RAM
+Largura do barramento for 8 a memória é 2^8
