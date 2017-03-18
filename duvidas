@@ -2,12 +2,15 @@ DÃºvidas:
 
 1) Como assim: Tamanho da palavra em bits [16, 32 ou 64]?
 Tamanho que a CPU consegue representar.
+1.1) CPU: Busca, decodificação, execução e saída
+
 
 2) Parser, o que fazer com ele?
 Pegar o arquivo, extrair as instruções, manda pra um encoder(pega as informações que o parser extraiu e codifica de acordo com o tamanho da palavra), que manda pro módulo de E/S, que vai armazenar temporariamente essas informações num Buffer.
 2.1) Encoder?
 "mov 0x0000001, 2"
-
+p1 p2 p3
+armazena no buffer de entrada e saída
 
 3) Buffer? Onde fica? Pra que serve?
 3.1) A instrução entra codificada no buffer ou não?

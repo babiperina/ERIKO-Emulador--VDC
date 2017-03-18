@@ -23,9 +23,15 @@ public class Constantes {
 		else if (SIZE_ram == 32)
 			SIZE_e_s_buffer = 16;
 	}
-
 	public static int WIDTH_barramento = 8;
 
+	//Register value
+	public static int VALUE_register_A = -1;
+	public static int VALUE_register_B = -2;
+	public static int VALUE_register_C = -3;
+	public static int VALUE_register_D = -4;
+	public static int VALUE_register_CI = -5;
+	
 	// Instructions
 	public static String mov = "mov";
 	public static String add = "add";
