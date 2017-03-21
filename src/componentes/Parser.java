@@ -9,18 +9,23 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import principal.Computador;
 import utils.Constantes;
 
 public class Parser {
 
-	public static int instrucaoAtual = -1;
-	public static final String TAG = "Parser.class";
-	public static ArrayList<String> instrucoes = new ArrayList<>();
+	public int instrucaoAtual = 0;
+	public final String TAG = "Parser.class";
+	public ArrayList<String> instrucoes = new ArrayList<>();
+
+	public Parser() {
+		System.out.println(TAG + " criada");
+		extractData();
+	}
 
 	public void sendDataToEncoder() {
 		instrucaoAtual++;
-		Computador.encoder.pullInstructionsFromParser();;
+//		Computador.encoder.pullInstructionsFromParser();
+		
 	}
 
 	public void printInstructions() {
@@ -29,7 +34,7 @@ public class Parser {
 		}
 	}
 
-	public static void extractData() {
+	public void extractData() {
 		File f = new File(Constantes.ARQUIVO_DE_TEXTO);
 
 		FileReader fr = null;
@@ -68,11 +73,6 @@ public class Parser {
 			}
 
 		}
-	}
-
-	static {
-		System.out.println(TAG + " criada");
-		extractData();
 	}
 
 }

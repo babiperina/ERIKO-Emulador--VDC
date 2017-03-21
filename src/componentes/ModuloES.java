@@ -8,8 +8,13 @@ public class ModuloES {
 	
 	private static final String TAG = "ModuloES.class";
 	
-	int[] buffer = new int[Constantes.SIZE_e_s_buffer];
+	//o tamanho do buffer está em bits
+	private int bufferCI = -1;
+	int[] buffer = new int[Constantes.SIZE_e_s_buffer*8];
 	
+	public int getBufferCI(){
+		return bufferCI;
+	}
 	
 	public int getBufferSize(){
 		return buffer.length;
@@ -17,7 +22,7 @@ public class ModuloES {
 	
 	@Override
 	public String toString() {
-		return "ModuloES [BufferSize: " + getBufferSize() + "bytes] [buffer=" + Arrays.toString(buffer) + "]";
+		return "ModuloES [BufferSize: " + getBufferSize() + "bits] [buffer=" + Arrays.toString(buffer) + "]";
 	}
 
 	static {

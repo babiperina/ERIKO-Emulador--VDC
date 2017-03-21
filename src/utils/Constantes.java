@@ -7,10 +7,11 @@ public class Constantes {
 	public static final String ARQUIVO_DE_TEXTO = "assembly";
 
 	// Params
-	/*
-	 * a. Tamanho da palavra em bits [16, 32 ou 64]; b. Tamanho da RAM em bytes
-	 * [8, 16 ou 32]; c. Tamanho do buffer de entrada/saída em bytes [4, 8 ou
-	 * 16]; d. Largura do barramento em bits [8, 16 ou 32];
+	/* 1 byte = 8 bits
+	 * a. Tamanho da palavra em bits [16, 32 ou 64] em bytes [2, 4, 8]; 
+	 * b. Tamanho da RAM em bits [64, 128, 256] em bytes [8, 16 ou 32]; 
+	 * c. Tamanho do buffer de entrada/saida em bits [32, 64, 128] em bytes [4, 8 ou 16]; 
+	 * d. Largura do barramento em bits [8, 16 ou 32] em bytes [1, 2, 4];
 	 */
 	public static int SIZE_word = 16;
 	public static int SIZE_ram = 8;
@@ -38,11 +39,38 @@ public class Constantes {
 	public static String inc = "inc";
 	public static String imul = "imul";
 
-	// Instructions value
-	public static int VALUE_mov = 1;
-	public static int VALUE_add = 2;
-	public static int VALUE_inc = 3;
-	public static int VALUE_imul = 4;
+	// Instructions value 3 a 6 
+	// r - register ; m - memory ; i - immediate
+	public static int VALUE_mov_r_from_r = 301;
+	public static int VALUE_mov_r_from_i = 302;
+	public static int VALUE_mov_m_from_i = 303;
+	public static int VALUE_mov_r_from_m = 304;
+	public static int VALUE_mov_m_from_r = 305;
+	public static int VALUE_add_r_from_r = 401;
+	public static int VALUE_add_r_from_i = 402;
+	public static int VALUE_add_m_from_i = 403;
+	public static int VALUE_add_r_from_m = 404;
+	public static int VALUE_add_m_from_r = 405;
+	public static int VALUE_inc_r = 501;
+	public static int VALUE_inc_m = 502;
+	public static int VALUE_imul_r_r_r = 601;
+	public static int VALUE_imul_r_r_m = 602;
+	public static int VALUE_imul_r_r_i = 603;
+	public static int VALUE_imul_r_m_r = 604;
+	public static int VALUE_imul_r_m_m = 605;
+	public static int VALUE_imul_r_m_i = 606;
+	public static int VALUE_imul_r_i_r = 607;
+	public static int VALUE_imul_r_i_m = 608;
+	public static int VALUE_imul_r_i_i = 609;
+	public static int VALUE_imul_m_r_r = 610;
+	public static int VALUE_imul_m_r_m = 611;
+	public static int VALUE_imul_m_r_i = 612;
+	public static int VALUE_imul_m_m_r = 613;
+	public static int VALUE_imul_m_m_m = 614;
+	public static int VALUE_imul_m_m_i = 615;
+	public static int VALUE_imul_m_i_r = 616;
+	public static int VALUE_imul_m_i_m = 617;
+	public static int VALUE_imul_m_i_i = 618;
 
 	// Instructions REgex
 	public static String RE_add_mov = "^(add|mov)\\s+([a-dA-D]|0x[a-fA-F0-9])\\s*,"

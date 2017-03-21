@@ -8,7 +8,9 @@ public class Ram {
 	
 	public static final String TAG = "Ram.class";
 	
-	int[] celulas = new int[Constantes.SIZE_ram];
+	//O tamanho da RAM está em bits
+	int[] celulas = new int[Constantes.SIZE_ram*8];
+	
 	
 	public Ram() {
 	}
@@ -20,7 +22,7 @@ public class Ram {
 	
 	@Override
 	public String toString() {
-		return "Ram [Size: " + getSize() + "bytes] [celulas=" + Arrays.toString(celulas) + "]";
+		return "Ram [Size: " + getSize() + "bits] [celulas=" + Arrays.toString(celulas) + "]";
 	}
 
 
