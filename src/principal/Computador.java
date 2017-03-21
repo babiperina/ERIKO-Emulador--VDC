@@ -21,12 +21,14 @@ public class Computador {
 
 		while (parser.instrucaoAtual < parser.instrucoes.size()) {
 			System.out.println("+-------------------------------------------------------------------------+");
+			System.out.println("+-------------------------------------------------------------------------+");
 			System.out.println(
 					"Instrução atual: " + parser.instrucaoAtual + " QTDE Instruções: " + parser.instrucoes.size());
 			System.out.println("+-------------------------------------------------------------------------+");
 //			printToHelp();
 			encoder.pullInstructionsFromParser();
 			encoder.encoderInstrucao();
+			//passar instrução do encoder pra entrada e saída
 			
 			System.out.println("\n \n");
 		}
