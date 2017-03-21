@@ -78,19 +78,19 @@ public class Encoder {
 					// mov register, memory
 					msg += "memory";
 					code[0] = Constantes.VALUE_mov_r_from_m;
-
+					code[2] = encoderMemory(y);
 				} else {
 					// mov register, immediate
 					msg += "immediate";
 					code[0] = Constantes.VALUE_mov_r_from_i;
-
+					code[2] = Long.valueOf(y).longValue();
 				}
 			}
 
 		} else {
 			// mov memory
 			msg += "memory, ";
-
+			code[1] = encoderMemory(x);
 			matcher = r.matcher(y);
 			if (matcher.matches()) {
 				// mov memory, register
@@ -98,11 +98,18 @@ public class Encoder {
 				code[0] = Constantes.VALUE_mov_m_from_r;
 				code[2] = encoderRegister(y);
 			} else {
-
-				// mov memory, immediate
-				msg += "immediate";
-				code[0] = Constantes.VALUE_mov_m_from_i;
-
+				matcher = m.matcher(y);
+				if(!matcher.matches()){
+					// mov memory, immediate
+					msg += "immediate";
+					code[0] = Constantes.VALUE_mov_m_from_i;
+					code[2] = Long.parseLong(y);	
+				} else {
+					// mov memory, memory
+					msg += "immediate";
+					code[0] = Constantes.VALUE_mov_m_from_m;
+					code[2] = encoderMemory(y);	
+				}
 			}
 		}
 		System.out.println(msg);
@@ -122,6 +129,11 @@ public class Encoder {
 
 	}
 
+	long encoderMemory(String memory){
+		System.out.println(memory.substring(2));
+		return Long.valueOf(memory.substring(2)).longValue();
+	}
+	
 	public void sendInstructionsToESBuffer() {
 
 	}

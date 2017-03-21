@@ -46,6 +46,7 @@ public class Constantes {
 	public static int VALUE_mov_m_from_i = 303;
 	public static int VALUE_mov_r_from_m = 304;
 	public static int VALUE_mov_m_from_r = 305;
+	public static int VALUE_mov_m_from_m = 306;
 	public static int VALUE_add_r_from_r = 401;
 	public static int VALUE_add_r_from_i = 402;
 	public static int VALUE_add_m_from_i = 403;
