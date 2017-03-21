@@ -73,7 +73,7 @@ public class Constantes {
 	public static int VALUE_imul_m_i_i = 618;
 
 	// Instructions REgex
-	public static String RE_add_mov = "^(add|mov)\\s+([a-dA-D]|0x[a-fA-F0-9])\\s*,"
+	public static String RE_add_mov = "^(add|mov)\\s+([a-dA-D]|0x[a-fA-F0-9]+)\\s*,"
 			+ "\\s+([a-dA-D]|0x[a-fA-F0-9]+|\\d)\\s*$";
 	public static String RE_inc = "^(inc)\\s+([a-dA-D]|0x[a-fA-F0-9])\\s*$";
 	public static String RE_imul = "^(imul)\\s+([a-dA-D]|0x[a-fA-F0-9])\\s*," + "\\s+([a-dA-D]|0x[a-fA-F0-9]+|\\d)\\s*,"

@@ -1,5 +1,9 @@
 mov A, 2
+add B, 3
 sdasd
+mov 0x02, A
 add A, 5
 inc A
+mov 0x004, 0x02
 sads
+imul A, 0x02, 2
