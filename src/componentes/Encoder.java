@@ -48,11 +48,17 @@ public class Encoder {
 				System.out.println("Instrução codificada em longs: " + code[0] + " " + code[1] + " " + code[2]);
 			} else if (type2.matches()) {
 				String x = type2.group(2);
-				
+
 				code = encoderIncInstruction(r, x);
 				System.out.println("Instrução codificada em longs: " + code[0] + " " + code[1]);
 			} else {
-				System.out.println("imul");
+				String x, y, z;
+				x = type3.group(2);
+				y = type3.group(3);
+				z = type3.group(4);
+				code = encoderImulInstruction(r, m, x, y, z);
+				System.out.println(
+						"Instrução codificada em longs: " + code[0] + " " + code[1] + " " + code[2] + " " + code[3]);
 			}
 		} else {
 			System.out.println("Programa encerrado. Error line: " + Computador.parser.instrucaoAtual);
@@ -171,6 +177,54 @@ public class Encoder {
 			code[0] = Constantes.VALUE_inc_m;
 			code[1] = encoderMemory(x);
 		}
+		return code;
+	}
+
+	long[] encoderImulInstruction(Pattern r, Pattern m, String x, String y, String z) {
+		long[] code = new long[4];
+		Matcher matcher;
+
+		String c = "6";
+		matcher = r.matcher(x);
+		if (matcher.matches()) {
+			c += "1";
+			code[1] = encoderRegister(x);
+		} else {
+			c += "2";
+			code[1] = encoderMemory(x);
+		}
+
+		matcher = r.matcher(y);
+		if (matcher.matches()) {
+			c += "1";
+			code[2] = encoderRegister(y);
+		} else {
+			matcher = m.matcher(y);
+			if (matcher.matches()) {
+				c += "2";
+				code[2] = encoderMemory(y);
+			} else {
+				c += "3";
+				code[2] = Long.parseLong(y);
+			}
+		}
+
+		matcher = r.matcher(z);
+		if (matcher.matches()) {
+			c += "1";
+			code[3] = encoderRegister(z);
+		} else {
+			matcher = m.matcher(z);
+			if (matcher.matches()) {
+				c += "2";
+				code[3] = encoderMemory(z);
+			} else {
+				c += "3";
+				code[3] = Long.parseLong(z);
+			}
+		}
+
+		code[0] = Long.parseLong(c);
 		return code;
 	}
 
