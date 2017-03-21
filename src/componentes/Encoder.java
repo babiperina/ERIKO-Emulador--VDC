@@ -42,12 +42,15 @@ public class Encoder {
 
 				if (type.equalsIgnoreCase("mov")) {
 					code = encoderMovInstruction(r, m, x, y);
-					System.out.println("Instrução codificada em longs: " + code[0] + " " + code[1] + " " + code[2]);
 				} else {
-					System.out.println("add");
+					code = encoderAddInstruction(r, m, x, y);
 				}
+				System.out.println("Instrução codificada em longs: " + code[0] + " " + code[1] + " " + code[2]);
 			} else if (type2.matches()) {
-				System.out.println("inc");
+				String x = type2.group(2);
+				
+				code = encoderIncInstruction(r, x);
+				System.out.println("Instrução codificada em longs: " + code[0] + " " + code[1]);
 			} else {
 				System.out.println("imul");
 			}
@@ -58,30 +61,25 @@ public class Encoder {
 
 	long[] encoderMovInstruction(Pattern r, Pattern m, String x, String y) {
 		long code[] = new long[3];
-		String msg = "mov ";
 		Matcher matcher;
 
 		matcher = r.matcher(x);
 		if (matcher.matches()) {
 			// mov register
 			code[1] = encoderRegister(x);
-			msg += "register, ";
 			matcher = r.matcher(y);
 			if (matcher.matches()) {
 				// mov register, register
-				msg += "register";
 				code[0] = Constantes.VALUE_mov_r_from_r;
 				code[2] = encoderRegister(y);
 			} else {
 				matcher = m.matcher(y);
 				if (matcher.matches()) {
 					// mov register, memory
-					msg += "memory";
 					code[0] = Constantes.VALUE_mov_r_from_m;
 					code[2] = encoderMemory(y);
 				} else {
 					// mov register, immediate
-					msg += "immediate";
 					code[0] = Constantes.VALUE_mov_r_from_i;
 					code[2] = Long.valueOf(y).longValue();
 				}
@@ -89,30 +87,90 @@ public class Encoder {
 
 		} else {
 			// mov memory
-			msg += "memory, ";
 			code[1] = encoderMemory(x);
 			matcher = r.matcher(y);
 			if (matcher.matches()) {
 				// mov memory, register
-				msg += "register";
 				code[0] = Constantes.VALUE_mov_m_from_r;
 				code[2] = encoderRegister(y);
 			} else {
 				matcher = m.matcher(y);
-				if(!matcher.matches()){
+				if (!matcher.matches()) {
 					// mov memory, immediate
-					msg += "immediate";
 					code[0] = Constantes.VALUE_mov_m_from_i;
-					code[2] = Long.parseLong(y);	
+					code[2] = Long.parseLong(y);
 				} else {
 					// mov memory, memory
-					msg += "immediate";
 					code[0] = Constantes.VALUE_mov_m_from_m;
-					code[2] = encoderMemory(y);	
+					code[2] = encoderMemory(y);
 				}
 			}
 		}
-		System.out.println(msg);
+		return code;
+	}
+
+	long[] encoderAddInstruction(Pattern r, Pattern m, String x, String y) {
+		long code[] = new long[3];
+		Matcher matcher;
+
+		matcher = r.matcher(x);
+		if (matcher.matches()) {
+			// add register
+			code[1] = encoderRegister(x);
+			matcher = r.matcher(y);
+			if (matcher.matches()) {
+				// add register, register
+				code[0] = Constantes.VALUE_add_r_from_r;
+				code[2] = encoderRegister(y);
+			} else {
+				matcher = m.matcher(y);
+				if (matcher.matches()) {
+					// add register, memory
+					code[0] = Constantes.VALUE_add_r_from_m;
+					code[2] = encoderMemory(y);
+				} else {
+					// add register, immediate
+					code[0] = Constantes.VALUE_add_r_from_i;
+					code[2] = Long.valueOf(y).longValue();
+				}
+			}
+
+		} else {
+			// add memory
+			code[1] = encoderMemory(x);
+			matcher = r.matcher(y);
+			if (matcher.matches()) {
+				// add memory, register
+				code[0] = Constantes.VALUE_add_m_from_r;
+				code[2] = encoderRegister(y);
+			} else {
+				matcher = m.matcher(y);
+				if (!matcher.matches()) {
+					// add memory, immediate
+					code[0] = Constantes.VALUE_add_m_from_i;
+					code[2] = Long.parseLong(y);
+				} else {
+					// add memory, memory
+					code[0] = Constantes.VALUE_add_m_from_m;
+					code[2] = encoderMemory(y);
+				}
+			}
+		}
+		return code;
+	}
+
+	long[] encoderIncInstruction(Pattern r, String x) {
+		long code[] = new long[2];
+		Matcher matcher = r.matcher(x);
+		if (matcher.matches()) {
+			// inc register
+			code[0] = Constantes.VALUE_inc_r;
+			code[1] = encoderRegister(x);
+		} else {
+			// inc memory
+			code[0] = Constantes.VALUE_inc_m;
+			code[1] = encoderMemory(x);
+		}
 		return code;
 	}
 
@@ -129,11 +187,10 @@ public class Encoder {
 
 	}
 
-	long encoderMemory(String memory){
-		System.out.println(memory.substring(2));
+	long encoderMemory(String memory) {
 		return Long.valueOf(memory.substring(2)).longValue();
 	}
-	
+
 	public void sendInstructionsToESBuffer() {
 
 	}

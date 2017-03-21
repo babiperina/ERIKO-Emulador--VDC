@@ -52,6 +52,7 @@ public class Constantes {
 	public static int VALUE_add_m_from_i = 403;
 	public static int VALUE_add_r_from_m = 404;
 	public static int VALUE_add_m_from_r = 405;
+	public static int VALUE_add_m_from_m = 406;
 	public static int VALUE_inc_r = 501;
 	public static int VALUE_inc_m = 502;
 	public static int VALUE_imul_r_r_r = 601;
