@@ -9,6 +9,7 @@ import utils.Constantes;
 public class Encoder {
 
 	private String instrucao;
+	private long code[];
 
 	public void pullInstructionsFromParser() {
 		// só pode pegar essa instrução se o CI do buffer for -1
@@ -23,7 +24,6 @@ public class Encoder {
 		Pattern p1 = Pattern.compile(Constantes.RE_add_mov);
 		Pattern p2 = Pattern.compile(Constantes.RE_inc);
 		Pattern p3 = Pattern.compile(Constantes.RE_imul);
-		long code[];
 		Matcher type1, type2, type3;
 
 		type1 = p1.matcher(instrucao);
@@ -45,20 +45,16 @@ public class Encoder {
 				} else {
 					code = encoderAddInstruction(r, m, x, y);
 				}
-				System.out.println("Instrução codificada em longs: " + code[0] + " " + code[1] + " " + code[2]);
 			} else if (type2.matches()) {
 				String x = type2.group(2);
 
 				code = encoderIncInstruction(r, x);
-				System.out.println("Instrução codificada em longs: " + code[0] + " " + code[1]);
 			} else {
 				String x, y, z;
 				x = type3.group(2);
 				y = type3.group(3);
 				z = type3.group(4);
 				code = encoderImulInstruction(r, m, x, y, z);
-				System.out.println(
-						"Instrução codificada em longs: " + code[0] + " " + code[1] + " " + code[2] + " " + code[3]);
 			}
 		} else {
 			System.out.println("Programa encerrado. Error line: " + Computador.parser.instrucaoAtual);
@@ -245,8 +241,33 @@ public class Encoder {
 		return Long.valueOf(memory.substring(2)).longValue();
 	}
 
-	public void sendInstructionsToESBuffer() {
+	public String seeInstrucaoCode() {
+		String code = "";
 
+		if (!instrucao.equalsIgnoreCase("error")) {
+
+			for (long l : this.code) {
+				code += l + " ";
+			}
+
+		}
+		return code;
+	}
+
+	public void sendInstructionsToESBuffer() {
+		// enviar a instrução para o modulo E/S
+		// isto somente será possível se CI = -1 ou value on buffer[CI] for -1
+		if (Computador.es.getBufferCI() == -1 || Computador.es.buffer[Computador.es.getBufferCI()] == -1) {
+			Computador.es.setIn("");
+			String msg = "";
+			for (int i = 0; i < code.length; i++) {
+				msg+=Long.toBinaryString(code[i])+" ";
+			}
+//			System.out.println(msg);
+//			Computador.es.receivedInstructionsFromEncoder();
+		} else {
+			System.out.println("Buffer lotado.");
+		}
 	}
 
 	public void printInstrucao() {

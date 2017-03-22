@@ -17,31 +17,33 @@ public class Computador {
 	public static ModuloES es = new ModuloES();
 
 	public static void main(String[] args) {
-		
 
+		printToHelp();
 		while (parser.instrucaoAtual < parser.instrucoes.size()) {
 			System.out.println("+-------------------------------------------------------------------------+");
 			System.out.println("+-------------------------------------------------------------------------+");
 			System.out.println(
 					"Instrução atual: " + parser.instrucaoAtual + " QTDE Instruções: " + parser.instrucoes.size());
 			System.out.println("+-------------------------------------------------------------------------+");
-//			printToHelp();
+			 
 			encoder.pullInstructionsFromParser();
 			encoder.encoderInstrucao();
-			//passar instrução do encoder pra entrada e saída
-			
+			System.out.println(encoder.seeInstrucaoCode());
+			encoder.sendInstructionsToESBuffer();
+			// passar instrução do encoder pra entrada e saída
+
 			System.out.println("\n \n");
 		}
 
 	}
 
-	private static void printToHelp(){
+	private static void printToHelp() {
 		System.out.println(cpu.toString());
 		System.out.println(ram.toString());
 		System.out.println(es.toString());
-		System.out.println("Instruções:");
-		parser.printInstructions();
-		parser.sendDataToEncoder();
+//		System.out.println("Instruções:");
+//		parser.printInstructions();
+//		parser.sendDataToEncoder();
 	}
 
 }
