@@ -8,61 +8,70 @@ import utils.Constantes;
 
 public class Encoder {
 
-	private String instrucao;
+	private String instrucao = null;
+	long[] code = new long[3];
 
 	public void pullInstructionsFromParser() {
-		// sÛ pode pegar essa instruÁ„o se o CI do buffer for -1
-		// ou a informaÁ„o que tiver no espaÁo buffer[BufferCI] for diferente de
-		// 0 e 1
-		instrucao = Computador.parser.instrucoes.get(Computador.parser.instrucaoAtual);
-		printInstrucao();
-		Computador.parser.sendDataToEncoder();
+		// s√≥ pode pegar a instru√ß√£o se instrucao for "" ou null
+		if (instrucao == "" || instrucao == null) {
+			instrucao = Computador.parser.instrucoes.get(Computador.parser.instrucaoAtual);
+			printInstrucao();
+			Computador.parser.sendDataToEncoder();
+			code = encoderInstrucao();
+			instrucao = null;
+		} else {
+			// caso a instru√ß√£o anterior ainda n√£o tenha sido passada para o
+			// moduloE/S
+		}
 	}
 
-	public void encoderInstrucao() {
-		Pattern p1 = Pattern.compile(Constantes.RE_add_mov);
-		Pattern p2 = Pattern.compile(Constantes.RE_inc);
-		Pattern p3 = Pattern.compile(Constantes.RE_imul);
-		long code[];
-		Matcher type1, type2, type3;
+	public long[] encoderInstrucao() {
+		long code[] = {0};
+		if (!(instrucao == "" || instrucao == null)) {
+			Pattern p1 = Pattern.compile(Constantes.RE_add_mov);
+			Pattern p2 = Pattern.compile(Constantes.RE_inc);
+			Pattern p3 = Pattern.compile(Constantes.RE_imul);
+			Matcher type1, type2, type3;
 
-		type1 = p1.matcher(instrucao);
-		type2 = p2.matcher(instrucao);
-		type3 = p3.matcher(instrucao);
+			type1 = p1.matcher(instrucao);
+			type2 = p2.matcher(instrucao);
+			type3 = p3.matcher(instrucao);
 
-		if (type1.matches() || type2.matches() || type3.matches()) {
-			Pattern r = Pattern.compile(Constantes.RE_register);
-			Pattern m = Pattern.compile(Constantes.RE_memory);
+			if (type1.matches() || type2.matches() || type3.matches()) {
+				Pattern r = Pattern.compile(Constantes.RE_register);
+				Pattern m = Pattern.compile(Constantes.RE_memory);
 
-			if (type1.matches()) {
-				String type, x, y;
-				type = type1.group(1);
-				x = type1.group(2);
-				y = type1.group(3);
+				if (type1.matches()) {
+					String type, x, y;
+					type = type1.group(1);
+					x = type1.group(2);
+					y = type1.group(3);
 
-				if (type.equalsIgnoreCase("mov")) {
-					code = encoderMovInstruction(r, m, x, y);
+					if (type.equalsIgnoreCase("mov")) {
+						code = encoderMovInstruction(r, m, x, y);
+					} else {
+						code = encoderAddInstruction(r, m, x, y);
+					}
+					System.out.println("Instru√ß√£o codificada em longs: " + code[0] + " " + code[1] + " " + code[2]);
+				} else if (type2.matches()) {
+					String x = type2.group(2);
+
+					code = encoderIncInstruction(r, x);
+					System.out.println("Instru√ß√£oo codificada em longs: " + code[0] + " " + code[1]);
 				} else {
-					code = encoderAddInstruction(r, m, x, y);
+					String x, y, z;
+					x = type3.group(2);
+					y = type3.group(3);
+					z = type3.group(4);
+					code = encoderImulInstruction(r, m, x, y, z);
+					System.out.println("Instru√ß√£o codificada em longs: " + code[0] + " " + code[1] + " " + code[2] + " "
+							+ code[3]);
 				}
-				System.out.println("InstruÁ„o codificada em longs: " + code[0] + " " + code[1] + " " + code[2]);
-			} else if (type2.matches()) {
-				String x = type2.group(2);
-
-				code = encoderIncInstruction(r, x);
-				System.out.println("InstruÁ„o codificada em longs: " + code[0] + " " + code[1]);
 			} else {
-				String x, y, z;
-				x = type3.group(2);
-				y = type3.group(3);
-				z = type3.group(4);
-				code = encoderImulInstruction(r, m, x, y, z);
-				System.out.println(
-						"InstruÁ„o codificada em longs: " + code[0] + " " + code[1] + " " + code[2] + " " + code[3]);
+				System.out.println("Programa encerrado. Error line: " + Computador.parser.instrucaoAtual);
 			}
-		} else {
-			System.out.println("Programa encerrado. Error line: " + Computador.parser.instrucaoAtual);
 		}
+		return code;
 	}
 
 	long[] encoderMovInstruction(Pattern r, Pattern m, String x, String y) {
@@ -246,11 +255,12 @@ public class Encoder {
 	}
 
 	public void sendInstructionsToESBuffer() {
-
+		//mandar instru√ß√£o pro buffer de ES
+		Computador.es.code = code;
 	}
 
 	public void printInstrucao() {
-		System.out.println("InstruÁ„o atual: " + instrucao);
+		System.out.println("Instru√ß√£o atual: " + instrucao);
 	}
 
 	public String getInstrucao() {

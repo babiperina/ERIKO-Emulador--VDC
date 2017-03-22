@@ -19,16 +19,17 @@ public class Computador {
 	public static void main(String[] args) {
 		
 
+		printToHelp();
 		while (parser.instrucaoAtual < parser.instrucoes.size()) {
 			System.out.println("+-------------------------------------------------------------------------+");
 			System.out.println("+-------------------------------------------------------------------------+");
 			System.out.println(
-					"Instrução atual: " + parser.instrucaoAtual + " QTDE Instruções: " + parser.instrucoes.size());
+					"InstruÃ§Ã£o atual: " + parser.instrucaoAtual + " QTDE InstruÃ§Ãµes: " + parser.instrucoes.size());
 			System.out.println("+-------------------------------------------------------------------------+");
-//			printToHelp();
 			encoder.pullInstructionsFromParser();
-			encoder.encoderInstrucao();
-			//passar instrução do encoder pra entrada e saída
+//			encoder.encoderInstrucao();
+			es.pullInstructionFromEncoder();
+			//passar instruï¿½ï¿½o do encoder pra entrada e saï¿½da
 			
 			System.out.println("\n \n");
 		}
@@ -39,9 +40,8 @@ public class Computador {
 		System.out.println(cpu.toString());
 		System.out.println(ram.toString());
 		System.out.println(es.toString());
-		System.out.println("Instruções:");
+		System.out.println("InstruÃ§Ãµes:");
 		parser.printInstructions();
-		parser.sendDataToEncoder();
 	}
 
 }
