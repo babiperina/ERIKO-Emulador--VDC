@@ -12,9 +12,9 @@ public class Computador {
 
 	public static Parser parser = new Parser();
 	public static Encoder encoder = new Encoder();
+	public static ModuloES es = new ModuloES();
 	public static Cpu cpu = new Cpu();
 	public static Ram ram = new Ram();
-	public static ModuloES es = new ModuloES();
 
 	public static void main(String[] args) {
 		
@@ -23,12 +23,12 @@ public class Computador {
 			System.out.println("+-------------------------------------------------------------------------+");
 			System.out.println("+-------------------------------------------------------------------------+");
 			System.out.println(
-					"Instrução atual: " + parser.instrucaoAtual + " QTDE Instruções: " + parser.instrucoes.size());
+					"Instruï¿½ï¿½o atual: " + parser.instrucaoAtual + " QTDE Instruï¿½ï¿½es: " + parser.instrucoes.size());
 			System.out.println("+-------------------------------------------------------------------------+");
 //			printToHelp();
 			encoder.pullInstructionsFromParser();
 			encoder.encoderInstrucao();
-			//passar instrução do encoder pra entrada e saída
+			//passar instruï¿½ï¿½o do encoder pra entrada e saï¿½da
 			
 			System.out.println("\n \n");
 		}
@@ -39,7 +39,7 @@ public class Computador {
 		System.out.println(cpu.toString());
 		System.out.println(ram.toString());
 		System.out.println(es.toString());
-		System.out.println("Instruções:");
+		System.out.println("Instruï¿½ï¿½es:");
 		parser.printInstructions();
 		parser.sendDataToEncoder();
 	}
