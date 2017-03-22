@@ -12,9 +12,9 @@ public class Computador {
 
 	public static Parser parser = new Parser();
 	public static Encoder encoder = new Encoder();
+	public static ModuloES es = new ModuloES();
 	public static Cpu cpu = new Cpu();
 	public static Ram ram = new Ram();
-	public static ModuloES es = new ModuloES();
 
 	public static void main(String[] args) {
 		
@@ -25,6 +25,7 @@ public class Computador {
 			System.out.println("+-------------------------------------------------------------------------+");
 			System.out.println(
 					"Instrução atual: " + parser.instrucaoAtual + " QTDE Instruções: " + parser.instrucoes.size());
+
 			System.out.println("+-------------------------------------------------------------------------+");
 			encoder.pullInstructionsFromParser();
 //			encoder.encoderInstrucao();
