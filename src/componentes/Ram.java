@@ -9,7 +9,7 @@ public class Ram {
 	public static final String TAG = "Ram.class";
 	
 	//O tamanho da RAM está em bits
-	int[] celulas = new int[Constantes.SIZE_ram*8];
+	int[] celulas = new int[Constantes.SIZE_ram];
 	
 	
 	public Ram() {

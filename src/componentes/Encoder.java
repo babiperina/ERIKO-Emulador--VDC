@@ -1,5 +1,6 @@
 package componentes;
 
+import java.math.BigInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,57 +9,104 @@ import utils.Constantes;
 
 public class Encoder {
 
-	private String instrucao;
-	private long code[];
+	private String instrucao = null;
+	long[] code = new long[3];
+	private Long instructionToSend = null;
 
 	public void pullInstructionsFromParser() {
-		// sÛ pode pegar essa instruÁ„o se o CI do buffer for -1
-		// ou a informaÁ„o que tiver no espaÁo buffer[BufferCI] for diferente de
-		// 0 e 1
-		instrucao = Computador.parser.instrucoes.get(Computador.parser.instrucaoAtual);
-		printInstrucao();
-		Computador.parser.sendDataToEncoder();
+		// s√≥ pode pegar a instru√ß√£o se instrucao for "" ou null
+		if (instrucao == "" || instrucao == null) {
+			instrucao = Computador.parser.instrucoes.get(Computador.parser.instrucaoAtual);
+			printInstrucao();
+			Computador.parser.sendDataToEncoder();
+			code = encoderInstrucaoToLong();
+			if (!instrucao.equalsIgnoreCase("error")) {
+				instructionToSend = toBinary(code, Constantes.SIZE_word);
+				System.out.println("Long √∫nico: " + instructionToSend);
+			}
+			instrucao = null;
+		} else {
+			// caso a instru√ß√£o anterior ainda n√£o tenha sido passada para o
+			// moduloE/S
+		}
 	}
 
-	public void encoderInstrucao() {
-		Pattern p1 = Pattern.compile(Constantes.RE_add_mov);
-		Pattern p2 = Pattern.compile(Constantes.RE_inc);
-		Pattern p3 = Pattern.compile(Constantes.RE_imul);
-		Matcher type1, type2, type3;
+	public long[] encoderInstrucaoToLong() {
+		long code[] = { 0 };
+		if (!(instrucao == "" || instrucao == null)) {
+			Pattern p1 = Pattern.compile(Constantes.RE_add_mov);
+			Pattern p2 = Pattern.compile(Constantes.RE_inc);
+			Pattern p3 = Pattern.compile(Constantes.RE_imul);
+			Matcher type1, type2, type3;
 
-		type1 = p1.matcher(instrucao);
-		type2 = p2.matcher(instrucao);
-		type3 = p3.matcher(instrucao);
+			type1 = p1.matcher(instrucao);
+			type2 = p2.matcher(instrucao);
+			type3 = p3.matcher(instrucao);
 
-		if (type1.matches() || type2.matches() || type3.matches()) {
-			Pattern r = Pattern.compile(Constantes.RE_register);
-			Pattern m = Pattern.compile(Constantes.RE_memory);
+			if (type1.matches() || type2.matches() || type3.matches()) {
+				Pattern r = Pattern.compile(Constantes.RE_register);
+				Pattern m = Pattern.compile(Constantes.RE_memory);
 
-			if (type1.matches()) {
-				String type, x, y;
-				type = type1.group(1);
-				x = type1.group(2);
-				y = type1.group(3);
+				if (type1.matches()) {
+					String type, x, y;
+					type = type1.group(1);
+					x = type1.group(2);
+					y = type1.group(3);
 
-				if (type.equalsIgnoreCase("mov")) {
-					code = encoderMovInstruction(r, m, x, y);
+					if (type.equalsIgnoreCase("mov")) {
+						code = encoderMovInstruction(r, m, x, y);
+					} else {
+						code = encoderAddInstruction(r, m, x, y);
+					}
+					System.out.println("Instru√ß√£o codificada em longs: " + code[0] + " " + code[1] + " " + code[2]);
+				} else if (type2.matches()) {
+					String x = type2.group(2);
+
+					code = encoderIncInstruction(r, x);
+					System.out.println("Instru√ß√£oo codificada em longs: " + code[0] + " " + code[1]);
 				} else {
-					code = encoderAddInstruction(r, m, x, y);
+					String x, y, z;
+					x = type3.group(2);
+					y = type3.group(3);
+					z = type3.group(4);
+					code = encoderImulInstruction(r, m, x, y, z);
+					System.out.println("Instru√ß√£o codificada em longs: " + code[0] + " " + code[1] + " " + code[2] + " "
+							+ code[3]);
 				}
-			} else if (type2.matches()) {
-				String x = type2.group(2);
 
-				code = encoderIncInstruction(r, x);
 			} else {
-				String x, y, z;
-				x = type3.group(2);
-				y = type3.group(3);
-				z = type3.group(4);
-				code = encoderImulInstruction(r, m, x, y, z);
+				System.out.println("Programa encerrado. Error line: " + Computador.parser.instrucaoAtual);
 			}
-		} else {
-			System.out.println("Programa encerrado. Error line: " + Computador.parser.instrucaoAtual);
 		}
+		return code;
+	}
+
+	public String encoderLongToBinary() {
+		return null;
+	}
+
+	private long parseLong(String s, int base) {
+		return new BigInteger(s, base).longValue();
+	}
+
+	public long toBinary(long code[], int palavraSize) {
+		String n = "";
+		int aux = 0;
+		for (long l : code) {
+			String temp = Long.toBinaryString(l);
+			aux = palavraSize - temp.length();
+			if (aux < 0) {
+				n += temp.substring(0, 16);
+				System.out.println(temp.substring(aux * -1, temp.length()));
+			} else if (aux < palavraSize) {
+				for (int i = 0; i < aux; i++) {
+					n += "0";
+				}
+				n += temp;
+			}
+		}
+		System.out.println("Instru√ß√£o em bin√°rio: " + n);
+		return parseLong(n, 2);
 	}
 
 	long[] encoderMovInstruction(Pattern r, Pattern m, String x, String y) {
@@ -187,7 +235,7 @@ public class Encoder {
 			code[1] = encoderRegister(x);
 		} else {
 			c += "2";
-			code[1] = encoderMemory(x);
+			code[1] = encoderMemory(x.substring(2));
 		}
 
 		matcher = r.matcher(y);
@@ -201,7 +249,7 @@ public class Encoder {
 				code[2] = encoderMemory(y);
 			} else {
 				c += "3";
-				code[2] = Long.parseLong(y);
+				code[2] = Long.parseLong(y.substring(2));
 			}
 		}
 
@@ -213,7 +261,7 @@ public class Encoder {
 			matcher = m.matcher(z);
 			if (matcher.matches()) {
 				c += "2";
-				code[3] = encoderMemory(z);
+				code[3] = encoderMemory(z.substring(2));
 			} else {
 				c += "3";
 				code[3] = Long.parseLong(z);
@@ -241,37 +289,12 @@ public class Encoder {
 		return Long.valueOf(memory.substring(2)).longValue();
 	}
 
-	public String seeInstrucaoCode() {
-		String code = "";
-
-		if (!instrucao.equalsIgnoreCase("error")) {
-
-			for (long l : this.code) {
-				code += l + " ";
-			}
-
-		}
-		return code;
-	}
-
 	public void sendInstructionsToESBuffer() {
-		// enviar a instruÁ„o para o modulo E/S
-		// isto somente ser· possÌvel se CI = -1 ou value on buffer[CI] for -1
-		if (Computador.es.getBufferCI() == -1 || Computador.es.buffer[Computador.es.getBufferCI()] == -1) {
-			Computador.es.setIn("");
-			String msg = "";
-			for (int i = 0; i < code.length; i++) {
-				msg+=Long.toBinaryString(code[i])+" ";
-			}
-//			System.out.println(msg);
-//			Computador.es.receivedInstructionsFromEncoder();
-		} else {
-			System.out.println("Buffer lotado.");
-		}
+		// mandar instru√ß√£o pro buffer de ES
 	}
 
 	public void printInstrucao() {
-		System.out.println("InstruÁ„o atual: " + instrucao);
+		System.out.println("Instru√ß√£o atual: " + instrucao);
 	}
 
 	public String getInstrucao() {

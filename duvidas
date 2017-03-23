@@ -18,3 +18,9 @@ O buffer faz parte do módulo de E/S.
 
 3) Memória RAM
 Largura do barramento for 8 a memória é 2^8
+
+-------------------------------
+
+
+Função para setar o número hexadecimal transformado em binário no long (64 bits com todos inicialmente em 0)
+Por exemplo: mov 0xF, 0x9 -> Pega o 0x9 e transforma em binário, aonde será usado 16 bits e setar da esquerda para a direita no long. No caso, nessa expressão, será utilizado apens 48 bits, no IMUL, usa-se os 64 (utilizando WIDTH_barramento = 8 e SIZE_word = 16)

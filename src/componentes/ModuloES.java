@@ -6,32 +6,31 @@ import utils.Constantes;
 
 public class ModuloES {
 
-
-	// o tamanho do buffer est� em bits
+	// o tamanho do buffer está em bits
 	private int bufferCI = -1;
-	int[] buffer = new int[Constantes.SIZE_e_s_buffer * 8];
-	String in;
+	int[] buffer = new int[Constantes.SIZE_e_s_buffer];
+	// instrução que entra
+	long[] code = null;
+	private String inInstruction = "";
 
 	public ModuloES() {
 		for (int i = 0; i < buffer.length; i++) {
 			buffer[i] = -1;
 		}
 	}
-	
-	void receivedInstructionsFromEncoder(){
-		
+
+	public void pullInstructionFromEncoder() {
 	}
 
-	public String getIn() {
-		return in;
+	public void moveInInstructionToBuffer() {
 	}
 
-	public void setIn(String in) {
-		this.in = in;
+	public String getInInstruction() {
+		return inInstruction;
 	}
 
-	public void incrementBufferCI() {
-		bufferCI++;
+	public void setInInstruction(String inInstruction) {
+		this.inInstruction = inInstruction;
 	}
 
 	public int getBufferCI() {
@@ -46,6 +45,5 @@ public class ModuloES {
 	public String toString() {
 		return "ModuloES [BufferSize: " + getBufferSize() + "bits] [buffer=" + Arrays.toString(buffer) + "]";
 	}
-
 
 }
