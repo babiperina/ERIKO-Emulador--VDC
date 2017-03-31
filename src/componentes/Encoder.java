@@ -118,7 +118,7 @@ public class Encoder {
 				instructionToSend[0] = (short) code[0];
 				instructionToSend[1] = (short) code[1];
 				instructionToSend[2] = (short) code[2];
-				instructionToSend[3] = (short) code[2];
+				instructionToSend[3] = (short) code[3];
 				break;
 			}
 			break;
@@ -126,16 +126,28 @@ public class Encoder {
 			System.out.println("palavra de 32 bits");
 			switch (type) {
 			case '3': // mov
-
+				instructionToSend = new Integer[3];
+				instructionToSend[0] = (int) code[0];
+				instructionToSend[1] = (int) code[1];
+				instructionToSend[2] = (int) code[2];
 				break;
 			case '4': // add
-
+				instructionToSend = new Integer[3];
+				instructionToSend[0] = (int) code[0];
+				instructionToSend[1] = (int) code[1];
+				instructionToSend[2] = (int) code[2];
 				break;
 			case '5': // inc
-
+				instructionToSend = new Integer[3];
+				instructionToSend[0] = (int) code[0];
+				instructionToSend[1] = (int) code[1];
 				break;
 			case '6': // imul
-
+				instructionToSend = new Integer[3];
+				instructionToSend[0] = (int) code[0];
+				instructionToSend[1] = (int) code[1];
+				instructionToSend[2] = (int) code[2];
+				instructionToSend[3] = (int) code[3];
 				break;
 			}
 			break;
@@ -143,16 +155,28 @@ public class Encoder {
 			System.out.println("palavra de 64 bits");
 			switch (type) {
 			case '3': // mov
-
+				instructionToSend = new Long[3];
+				instructionToSend[0] = (long) code[0];
+				instructionToSend[1] = (long) code[1];
+				instructionToSend[2] = (long) code[2];
 				break;
 			case '4': // add
-
+				instructionToSend = new Long[3];
+				instructionToSend[0] = (long) code[0];
+				instructionToSend[1] = (long) code[1];
+				instructionToSend[2] = (long) code[2];
 				break;
 			case '5': // inc
-
+				instructionToSend = new Long[3];
+				instructionToSend[0] = (long) code[0];
+				instructionToSend[1] = (long) code[1];
 				break;
 			case '6': // imul
-
+				instructionToSend = new Long[3];
+				instructionToSend[0] = (long) code[0];
+				instructionToSend[1] = (long) code[1];
+				instructionToSend[2] = (long) code[2];
+				instructionToSend[3] = (long) code[3];
 				break;
 			}
 			break;
