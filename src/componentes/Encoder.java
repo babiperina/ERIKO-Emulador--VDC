@@ -91,15 +91,70 @@ public class Encoder {
 
 	public void toES(long code[], int palavraSize) {
 		System.out.print("Método toES: ");
+		char type = (code[0] + "").charAt(0);
 		switch (palavraSize) {
 		case 16:
 			System.out.println("palavra de 16 bits");
+			switch (type) {
+			case '3': // mov
+				instructionToSend = new Short[3];
+				instructionToSend[0] = (short) code[0];
+				instructionToSend[1] = (short) code[1];
+				instructionToSend[2] = (short) code[2];
+				break;
+			case '4': // add
+				instructionToSend = new Short[3];
+				instructionToSend[0] = (short) code[0];
+				instructionToSend[1] = (short) code[1];
+				instructionToSend[2] = (short) code[2];
+				break;
+			case '5': // inc
+				instructionToSend = new Short[2];
+				instructionToSend[0] = (short) code[0];
+				instructionToSend[1] = (short) code[1];
+				break;
+			case '6': // imul
+				instructionToSend = new Short[4];
+				instructionToSend[0] = (short) code[0];
+				instructionToSend[1] = (short) code[1];
+				instructionToSend[2] = (short) code[2];
+				instructionToSend[3] = (short) code[2];
+				break;
+			}
 			break;
 		case 32:
 			System.out.println("palavra de 32 bits");
+			switch (type) {
+			case '3': // mov
+
+				break;
+			case '4': // add
+
+				break;
+			case '5': // inc
+
+				break;
+			case '6': // imul
+
+				break;
+			}
 			break;
 		case 64:
 			System.out.println("palavra de 64 bits");
+			switch (type) {
+			case '3': // mov
+
+				break;
+			case '4': // add
+
+				break;
+			case '5': // inc
+
+				break;
+			case '6': // imul
+
+				break;
+			}
 			break;
 
 		default:
