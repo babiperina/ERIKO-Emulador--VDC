@@ -11,7 +11,7 @@ public class Encoder {
 
 	private String instrucao = null;
 	long[] code = new long[3];
-	private Long instructionToSend = null;
+	private Object instructionToSend[] = null;
 
 	public void pullInstructionsFromParser() {
 		// só pode pegar a instrução se instrucao for "" ou null
@@ -21,8 +21,8 @@ public class Encoder {
 			Computador.parser.sendDataToEncoder();
 			code = encoderInstrucaoToLong();
 			if (!instrucao.equalsIgnoreCase("error")) {
-				instructionToSend = toBinary(code, Constantes.SIZE_word);
-				System.out.println("Long único: " + instructionToSend);
+				toES(code, Constantes.SIZE_word);
+				// instructionToSend = toBinary(code, Constantes.SIZE_word);
 			}
 			instrucao = null;
 		} else {
@@ -87,6 +87,26 @@ public class Encoder {
 
 	private long parseLong(String s, int base) {
 		return new BigInteger(s, base).longValue();
+	}
+
+	public void toES(long code[], int palavraSize) {
+		System.out.print("Método toES: ");
+		switch (palavraSize) {
+		case 16:
+			System.out.println("palavra de 16 bits");
+			break;
+		case 32:
+			System.out.println("palavra de 32 bits");
+			break;
+		case 64:
+			System.out.println("palavra de 64 bits");
+			break;
+
+		default:
+			System.out.println("error no tamanho da palavra");
+
+			break;
+		}
 	}
 
 	public long toBinary(long code[], int palavraSize) {

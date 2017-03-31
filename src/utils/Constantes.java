@@ -3,6 +3,7 @@ package utils;
 public class Constantes {
 
 	public static final String ARQUIVO_DE_TEXTO = "assembly";
+//	public static final String ARQUIVO_DE_TEXTO = "assembly_w_error";
 
 	// Params
 	/*

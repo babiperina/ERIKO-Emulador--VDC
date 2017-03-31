@@ -49,14 +49,17 @@ public class Parser {
 			Matcher m1, m2, m3;
 
 			String linha;
+			int cont = 0;
 			while ((linha = br.readLine()) != null) {
+				cont++;
 				m1 = p1.matcher(linha);
 				m2 = p2.matcher(linha);
 				m3 = p3.matcher(linha);
 				if (m1.matches() || m2.matches() || m3.matches()) {
 					instrucoes.add(linha);
 				} else {
-					instrucoes.add("error");
+					System.err.println("Erro na linha " + cont);
+					System.exit(0);
 				}
 			}
 

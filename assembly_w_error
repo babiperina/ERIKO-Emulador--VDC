@@ -1,7 +1,9 @@
 mov A, 2
 add B, 3
+sdasd
 mov 0x2, A
 add A, 5
 inc A
 mov 0x4, 0x2
+sads
 imul A, 0x2, 2
