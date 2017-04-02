@@ -2,7 +2,6 @@ package componentes;
 
 public class Cpu {
 
-	public static String TAG = "Cpu.class";
 
 	private Registrador A = new Registrador("A", null);
 	private Registrador B = new Registrador("B", null);
@@ -21,9 +20,6 @@ public class Cpu {
 		return "Cpu [A=" + A + ", B=" + B + ", C=" + C + ", D=" + D + ", CI=" + CI + "]";
 	}
 	
-	static {
-		System.out.println(TAG + " criada");
-	}
 
 
 }

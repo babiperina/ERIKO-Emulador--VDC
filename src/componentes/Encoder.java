@@ -138,12 +138,12 @@ public class Encoder {
 				instructionToSend[2] = (int) code[2];
 				break;
 			case '5': // inc
-				instructionToSend = new Integer[3];
+				instructionToSend = new Integer[2];
 				instructionToSend[0] = (int) code[0];
 				instructionToSend[1] = (int) code[1];
 				break;
 			case '6': // imul
-				instructionToSend = new Integer[3];
+				instructionToSend = new Integer[4];
 				instructionToSend[0] = (int) code[0];
 				instructionToSend[1] = (int) code[1];
 				instructionToSend[2] = (int) code[2];
@@ -167,12 +167,12 @@ public class Encoder {
 				instructionToSend[2] = (long) code[2];
 				break;
 			case '5': // inc
-				instructionToSend = new Long[3];
+				instructionToSend = new Long[2];
 				instructionToSend[0] = (long) code[0];
 				instructionToSend[1] = (long) code[1];
 				break;
 			case '6': // imul
-				instructionToSend = new Long[3];
+				instructionToSend = new Long[4];
 				instructionToSend[0] = (long) code[0];
 				instructionToSend[1] = (long) code[1];
 				instructionToSend[2] = (long) code[2];
@@ -390,6 +390,12 @@ public class Encoder {
 
 	public void sendInstructionsToESBuffer() {
 		// mandar instrução pro buffer de ES
+		if (instructionToSend != null) {
+			if (Computador.es.setInstructionIn(instructionToSend)) {
+				instructionToSend = null;
+			}
+		}
+
 	}
 
 	public void printInstrucao() {

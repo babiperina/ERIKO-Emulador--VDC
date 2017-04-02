@@ -14,11 +14,9 @@ import utils.Constantes;
 public class Parser {
 
 	public int instrucaoAtual = 0;
-	public final String TAG = "Parser.class";
 	public ArrayList<String> instrucoes = new ArrayList<>();
 
 	public Parser() {
-		System.out.println(TAG + " criada");
 		extractData();
 	}
 

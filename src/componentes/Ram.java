@@ -6,13 +6,15 @@ import utils.Constantes;
 
 public class Ram {
 	
-	public static final String TAG = "Ram.class";
 	
-	//O tamanho da RAM está em bits
+	//O tamanho da RAM estï¿½ em bits
 	int[] celulas = new int[Constantes.SIZE_ram];
 	
 	
 	public Ram() {
+		for (int i = 0; i < Constantes.offset; i++) {
+			celulas[i] = -1;
+		}
 	}
 	
 	public int getSize(){
@@ -22,13 +24,9 @@ public class Ram {
 	
 	@Override
 	public String toString() {
-		return "Ram [Size: " + getSize() + "bits] [celulas=" + Arrays.toString(celulas) + "]";
+		return "Ram [Size: " + getSize() + "bytes] [SizeToInstruction: " + Constantes.offset + "bytes] [WordSize: " + Constantes.SIZE_word + "bits] [celulas=" + Arrays.toString(celulas) + "]";
 	}
 
-
-	static {
-		System.out.println(TAG + " criada");
-	}
 
 
 }

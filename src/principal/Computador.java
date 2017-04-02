@@ -23,7 +23,7 @@ public class Computador {
 			System.out.println("+-------------------------------------------------------------------------+");
 			System.out.println("+-------------------------------------------------------------------------+");
 			System.out.println(
-					"Instrução atual: " + parser.instrucaoAtual + " QTDE Instruções: " + parser.instrucoes.size());
+					"Instrução atual: " + (parser.instrucaoAtual+1) + " QTDE Instruções: " + parser.instrucoes.size());
 
 			System.out.println("+-------------------------------------------------------------------------+");
 
@@ -31,6 +31,7 @@ public class Computador {
 			// encoder.encoderInstrucao();
 			es.pullInstructionFromEncoder();
 			// passar instru��o do encoder pra entrada e sa�da
+			es.sendInstructionToRAM();
 
 			System.out.println("\n \n");
 		}

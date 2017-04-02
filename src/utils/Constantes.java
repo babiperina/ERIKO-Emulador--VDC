@@ -3,27 +3,42 @@ package utils;
 public class Constantes {
 
 	public static final String ARQUIVO_DE_TEXTO = "assembly";
-//	public static final String ARQUIVO_DE_TEXTO = "assembly_w_error";
+	// public static final String ARQUIVO_DE_TEXTO = "assembly_w_error";
 
 	// Params
 	/*
 	 * 1 byte = 8 bits a. Tamanho da palavra em bits [16, 32 ou 64] em bytes [2,
-	 * 4, 8]; b. Tamanho da RAM em bits [64, 128, 256] em bytes [8, 16 ou 32];
-	 * c. Tamanho do buffer de entrada/saida em bits [32, 64, 128] em bytes [4,
-	 * 8 ou 16]; d. Largura do barramento em bits [8, 16 ou 32] em bytes [1, 2,
-	 * 4];
+	 * 4, 8]; b. Tamanho da RAM em bits [64, 128, 256] em bytes [64, 128 ou
+	 * 256]; c. Tamanho do buffer de entrada/saida em bits [32, 64, 128] em
+	 * bytes [4, 8 ou 16]; d. Largura do barramento em bits [8, 16 ou 32] em
+	 * bytes [1, 2, 4];
 	 */
-	public static int SIZE_word = 16; //em bits
-	public static int SIZE_ram = 8;
+	public static int SIZE_word = 2;
+	public static int SIZE_ram = 64;
+	public static int qtdeInstructionAtRAM;
+	public static int offset;
 	public static int SIZE_e_s_buffer;
-
+	
+	private static void setSizeWord() {
+		SIZE_word = SIZE_word*8;
+	}
+	
 	private static void setSizeBuffer() {
-		if (SIZE_ram == 8)
-			SIZE_e_s_buffer = 4;
-		else if (SIZE_ram == 16)
-			SIZE_e_s_buffer = 8;
-		else if (SIZE_ram == 32)
-			SIZE_e_s_buffer = 16;
+		SIZE_e_s_buffer = SIZE_word * 4 / 8;
+	}
+
+	private static void setQtdeInstructionAtRAM() {
+		int z;
+		z = (((+SIZE_word * 4) / 8) * 100) / SIZE_ram;
+		if (z <= 25) {
+			qtdeInstructionAtRAM = 2;
+		} else {
+			qtdeInstructionAtRAM = 1;
+		}
+	}
+
+	private static void setOffset() {
+		offset = SIZE_word * 4 / 8;
 	}
 
 	public static int WIDTH_barramento = 8;
@@ -97,7 +112,10 @@ public class Constantes {
 
 	static {
 		setDigitsLimitMemory();
+		setSizeWord();
+		setQtdeInstructionAtRAM();
 		setSizeBuffer();
+		setOffset();
 		RE_add_mov = "^(add|mov)\\s+([a-dA-D]|0x[a-fA-F0-9]" + limitMemoryDigits + ")\\s*,"
 				+ "\\s+([a-dA-D]|0x[a-fA-F0-9]+|\\d+)\\s*$";
 		RE_inc = "^(inc)\\s+([a-dA-D]|0x[a-fA-F0-9]" + limitMemoryDigits + ")\\s*$";
