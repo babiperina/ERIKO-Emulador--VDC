@@ -10,11 +10,11 @@ import utils.Constantes;
 
 public class Cpu {
 
-	private Registrador A = new Registrador("A", null);
-	private Registrador B = new Registrador("B", null);
-	private Registrador C = new Registrador("C", null);
-	private Registrador D = new Registrador("D", null);
-	private Registrador CI = new Registrador("CI", null);
+	private Registrador A = new Registrador(Constantes.VALUE_register_A, "A", null);
+	private Registrador B = new Registrador(Constantes.VALUE_register_B, "B", null);
+	private Registrador C = new Registrador(Constantes.VALUE_register_C, "C", null);
+	private Registrador D = new Registrador(Constantes.VALUE_register_D, "D", null);
+	private Registrador CI = new Registrador(Constantes.VALUE_register_CI, "CI", null);
 
 	public Cpu() {
 
@@ -123,85 +123,171 @@ public class Cpu {
 	}
 
 	public void executeMov(long type, long x, long y) {
+		int a = (int) x;
+		int b = (int) y;
 		if (type == Constantes.VALUE_mov_m_from_i) {
-
+			insertValorMemoria(a, b);
 		} else if (type == Constantes.VALUE_mov_m_from_m) {
-
+			b = pegarValorDaMemoria(a);
+			insertValorMemoria(a, b);
 		} else if (type == Constantes.VALUE_mov_m_from_r) {
-
+			b = pegarValorDoRegistrador(b);
+			insertValorMemoria(a, b);
 		} else if (type == Constantes.VALUE_mov_r_from_r) {
-
+			b = pegarValorDoRegistrador(b);
+			insertValorRegistrador(a, b);
 		} else if (type == Constantes.VALUE_mov_r_from_m) {
-
+			b = pegarValorDaMemoria(b);
+			insertValorRegistrador(a, b);
 		} else {
 			// Constantes.VALUE_mov_r_from_i
+			insertValorRegistrador(a, b);
 		}
 
 	}
 
 	public void executeAdd(long type, long x, long y) {
+		int a = (int) x;
+		int b = (int) y;
 		if (type == Constantes.VALUE_add_m_from_i) {
-
+			b = pegarValorDaMemoria(a) + b;
+			insertValorMemoria(a, b);
 		} else if (type == Constantes.VALUE_add_m_from_m) {
-
+			b = pegarValorDaMemoria(a) + pegarValorDaMemoria(b);
+			insertValorMemoria(a, b);
 		} else if (type == Constantes.VALUE_add_m_from_r) {
-
+			b = pegarValorDaMemoria(a) + pegarValorDoRegistrador(b);
+			insertValorMemoria(a, b);
 		} else if (type == Constantes.VALUE_add_r_from_r) {
-
+			b = pegarValorDoRegistrador(a) + pegarValorDoRegistrador(b);
+			insertValorRegistrador(a, b);
 		} else if (type == Constantes.VALUE_add_r_from_m) {
-
+			b = pegarValorDoRegistrador(a) + pegarValorDaMemoria(b);
+			insertValorRegistrador(a, b);
 		} else {
 			// Constantes.VALUE_add_r_from_i
+			b = pegarValorDoRegistrador(a) + b;
+			insertValorRegistrador(a, b);
 		}
 	}
 
 	public void executeInc(long type, long x) {
+		int a = (int) x;
 		if (type == Constantes.VALUE_inc_m) {
-
+			a = pegarValorDaMemoria(a);
+			insertValorMemoria(a, a + 1);
 		} else {
 			// Constantes.VALUE_inc_r
-
+			a = pegarValorDoRegistrador(a);
+			insertValorRegistrador(a, a + 1);
 		}
 	}
 
 	public void executeImul(long type, long x, long y, long z) {
+		int a = (int) x;
+		int b = (int) y;
+		int c = (int) z;
 
 		if (type == Constantes.VALUE_imul_r_r_r) {
-
+			b = pegarValorDoRegistrador(b) * pegarValorDoRegistrador(c);
+			insertValorRegistrador(a, b);
 		} else if (type == Constantes.VALUE_imul_r_r_m) {
-
+			b = pegarValorDoRegistrador(b) * pegarValorDaMemoria(c);
+			insertValorRegistrador(a, b);
 		} else if (type == Constantes.VALUE_imul_r_r_i) {
-
+			b = pegarValorDoRegistrador(b) + c;
+			insertValorRegistrador(a, b);
 		} else if (type == Constantes.VALUE_imul_r_m_r) {
-
+			b = pegarValorDaMemoria(b) * pegarValorDoRegistrador(c);
+			insertValorRegistrador(a, b);
 		} else if (type == Constantes.VALUE_imul_r_m_m) {
-
+			b = pegarValorDaMemoria(b) * pegarValorDaMemoria(c);
+			insertValorRegistrador(a, b);
 		} else if (type == Constantes.VALUE_imul_r_m_i) {
-
+			b = pegarValorDaMemoria(b) * c;
+			insertValorRegistrador(a, b);
 		} else if (type == Constantes.VALUE_imul_r_i_r) {
-
+			b = b * pegarValorDoRegistrador(c);
+			insertValorRegistrador(a, b);
 		} else if (type == Constantes.VALUE_imul_r_i_m) {
-
+			b = b * pegarValorDaMemoria(c);
+			insertValorRegistrador(a, b);
 		} else if (type == Constantes.VALUE_imul_r_i_i) {
-
+			b = b * c;
+			insertValorRegistrador(a, b);
 		} else if (type == Constantes.VALUE_imul_m_r_r) {
-
+			b = pegarValorDoRegistrador(b) * pegarValorDoRegistrador(c);
+			insertValorMemoria(a, b);
 		} else if (type == Constantes.VALUE_imul_m_r_m) {
-
+			b = pegarValorDoRegistrador(b) * pegarValorDaMemoria(c);
+			insertValorMemoria(a, b);
 		} else if (type == Constantes.VALUE_imul_m_r_i) {
-
+			b = pegarValorDoRegistrador(b) * c;
+			insertValorMemoria(a, b);
 		} else if (type == Constantes.VALUE_imul_m_m_r) {
-
+			b = pegarValorDaMemoria(b) * pegarValorDoRegistrador(c);
+			insertValorMemoria(a, b);
 		} else if (type == Constantes.VALUE_imul_m_m_m) {
-
+			b = pegarValorDaMemoria(b) * pegarValorDaMemoria(c);
+			insertValorMemoria(a, b);
 		} else if (type == Constantes.VALUE_imul_m_m_i) {
-
+			b = pegarValorDaMemoria(b) * c;
+			insertValorMemoria(a, b);
 		} else if (type == Constantes.VALUE_imul_m_i_r) {
-
+			b = b * pegarValorDoRegistrador(c);
+			insertValorMemoria(a, b);
 		} else if (type == Constantes.VALUE_imul_m_i_m) {
-
+			b = b * pegarValorDaMemoria(c);
+			insertValorMemoria(a, b);
 		} else {
 			// Constantes.VALUE_imul_m_i_i
+			b = b * c;
+			insertValorMemoria(a, b);
+		}
+	}
+
+	public void insertValorMemoria(int endereco, int valor) {
+
+	}
+
+	public int pegarValorDaMemoria(int endereco) {
+
+		return 0;
+	}
+
+	public int pegarValorDoRegistrador(int registrador) {
+		if (registrador == A.getId()) {
+			if (!A.isEmpty())
+				return A.getConteudo();
+			else
+				return 0;
+		} else if (registrador == B.getId()) {
+			if (!B.isEmpty())
+				return B.getConteudo();
+			else
+				return 0;
+		} else if (registrador == C.getId()) {
+			if (!C.isEmpty())
+				return C.getConteudo();
+			else
+				return 0;
+		} else {
+			if (!D.isEmpty())
+				return D.getConteudo();
+			else
+				return 0;
+		}
+	}
+
+	public void insertValorRegistrador(int registrador, int valor) {
+		if (registrador == A.getId()) {
+			A.setConteudo(valor);
+		} else if (registrador == B.getId()) {
+			B.setConteudo(valor);
+		} else if (registrador == C.getId()) {
+			C.setConteudo(valor);
+		} else {
+			D.setConteudo(valor);
 		}
 	}
 

@@ -16,6 +16,9 @@ public class Ram {
 		}
 	}
 
+	public void inserirValor(int endereco, int valor) {
+	}
+
 	public boolean receiveDados(byte[] dados) {
 		int salto = Constantes.SIZE_word * 4 / 8;
 		if (celulas[0] == -1) {
@@ -43,7 +46,7 @@ public class Ram {
 			Computador.cpu.getCI().setConteudo(dados.length);
 		} else {
 			for (int i = dados.length; i < dados.length + dados.length; i++) {
-				dados[i-dados.length] = celulas[i];
+				dados[i - dados.length] = celulas[i];
 				celulas[i] = -1;
 			}
 			Computador.cpu.getCI().setConteudo(0);

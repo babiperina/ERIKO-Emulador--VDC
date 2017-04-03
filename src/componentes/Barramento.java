@@ -3,6 +3,9 @@ package componentes;
 import principal.Computador;
 
 public class Barramento {
+	
+	public void sendValor(Cpu cpu, Ram ram, int valor){
+	}
 
 	public void sendDados(Object de, Object para, byte[] dados) {
 

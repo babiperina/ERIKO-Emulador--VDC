@@ -39,10 +39,9 @@ public class Computador {
 				es.sendInstructionToRAM(false);
 			cpu.sendEndereco();
 
-			
 			System.out.println("\n \n");
 		}
-
+		printToHelp();
 	}
 
 	private static void printToHelp() {

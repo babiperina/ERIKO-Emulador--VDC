@@ -2,19 +2,16 @@ package componentes;
 
 public class Registrador {
 
-	private static int id_inc = 0;
-
 	private int id;
 
 	private final String nome;
 
 	private Integer conteudo;
 
-	public Registrador(String nome, Integer conteudo) {
-		id = id_inc + 1;
+	public Registrador(int id, String nome, Integer conteudo) {
+		this.id = id;
 		this.nome = nome;
 		this.conteudo = conteudo;
-		id_inc++;
 	}
 
 	public int getId() {
@@ -27,6 +24,10 @@ public class Registrador {
 
 	public String getNome() {
 		return nome;
+	}
+	
+	public boolean isEmpty(){
+		return conteudo == null;
 	}
 	
 	public int getConteudo() {
