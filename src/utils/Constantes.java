@@ -2,7 +2,8 @@ package utils;
 
 public class Constantes {
 
-	public static final String ARQUIVO_DE_TEXTO = "assembly";
+//	public static final String ARQUIVO_DE_TEXTO = "assembly";
+	public static final String ARQUIVO_DE_TEXTO = "assembly_2";
 	// public static final String ARQUIVO_DE_TEXTO = "assembly_w_error";
 
 	// Params
@@ -13,8 +14,8 @@ public class Constantes {
 	 * bytes [4, 8 ou 16]; d. Largura do barramento em bits [8, 16 ou 32] em
 	 * bytes [1, 2, 4];
 	 */
-	public static int SIZE_word = 8;
-	public static int SIZE_ram = 128;
+	public static int SIZE_word = 2;
+	public static int SIZE_ram = 256;
 	public static int qtdeInstructionAtRAM;
 	public static int offset;
 	public static int SIZE_e_s_buffer;
@@ -41,7 +42,7 @@ public class Constantes {
 		offset = SIZE_word * 4 / 8 * qtdeInstructionAtRAM;
 	} 
 
-	public static int WIDTH_barramento = 8;
+	public static int WIDTH_barramento = 16;
 	public static String limitMemoryDigits;
 
 	private static void setDigitsLimitMemory() {

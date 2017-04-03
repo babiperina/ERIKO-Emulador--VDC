@@ -1,0 +1,6 @@
+mov A, 5
+mov B, A
+mov 0xf, A
+mov C, 10
+mov D, C
+mov A, C

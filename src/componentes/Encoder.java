@@ -385,7 +385,7 @@ public class Encoder {
 	}
 
 	long encoderMemory(String memory) {
-		return Long.valueOf(memory.substring(2)).longValue();
+		return Long.parseLong(memory.substring(2), 16);
 	}
 
 	public void sendInstructionsToESBuffer() {
