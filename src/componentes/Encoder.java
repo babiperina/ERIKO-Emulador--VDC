@@ -15,7 +15,7 @@ public class Encoder {
 
 	public void pullInstructionsFromParser() {
 		// só pode pegar a instrução se instrucao for "" ou null
-		if (instrucao == "" || instrucao == null) {
+		if (instrucao == "" || instrucao == null && Computador.parser.instrucaoAtual != Computador.parser.instrucoes.size()) {
 			instrucao = Computador.parser.instrucoes.get(Computador.parser.instrucaoAtual);
 			printInstrucao();
 			Computador.parser.sendDataToEncoder();

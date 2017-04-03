@@ -9,9 +9,8 @@ public class ModuloES {
 
 	// o tamanho do buffer está em bits
 	private int bufferCI = -1;
-	int[] buffer = new int[Constantes.SIZE_e_s_buffer];
+	byte[] buffer = new byte[Constantes.SIZE_e_s_buffer];
 	// instrução que entra
-	long[] code = null;
 	private Object instructionIn[] = null;
 
 	public ModuloES() {
@@ -34,16 +33,16 @@ public class ModuloES {
 
 	public void pullInstructionFromEncoder() {
 		Computador.encoder.sendInstructionsToESBuffer();
-
-		// ações
-		System.out.print("TO NA ES: ");
-		for (int i = 0; i < instructionIn.length; i++) {
-			System.out.print(instructionIn[i] + " ");
+		if (instructionIn != null) {
+			// ações
+			System.out.print("TO NA ES: ");
+			for (int i = 0; i < instructionIn.length; i++) {
+				System.out.print(instructionIn[i] + " ");
+			}
+			System.out.println();
+			moveInInstructionToBuffer();
+			printBuffer();
 		}
-		System.out.println();
-		moveInInstructionToBuffer();
-		printBuffer();
-
 		instructionIn = null;
 	}
 
@@ -52,13 +51,25 @@ public class ModuloES {
 				"ModuloES [BufferSize: " + getBufferSize() + "bytes] [buffer=" + Arrays.toString(buffer) + "]");
 	}
 
-	public void sendInstructionToRAM(){
+	public void sendInstructionToRAM(boolean twice) {
+		Computador.bar.sendDados(Computador.es, Computador.ram, buffer);
 		for (int i = 0; i < buffer.length; i++) {
 			buffer[i] = -1;
 		}
 		System.out.println("Enviando instrução pra RAM");
+		System.out.println(Computador.ram.toString());
+		if (twice) {
+			System.out.println("+-------------------------------------------------------------------------+");
+			System.out.println("Instrução atual: " + (Computador.parser.instrucaoAtual + 1) + " QTDE Instruções: "
+					+ Computador.parser.instrucoes.size());
+			System.out.println("+-------------------------------------------------------------------------+");
+
+			Computador.encoder.pullInstructionsFromParser();
+			Computador.es.pullInstructionFromEncoder();
+			Computador.es.sendInstructionToRAM(false);
+		}
 	}
-	
+
 	public void moveInInstructionToBuffer() {
 		if (buffer[0] == -1) {
 			System.out.println("Movendo pro Buffer");

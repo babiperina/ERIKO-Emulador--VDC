@@ -8,7 +8,7 @@ public class Constantes {
 	// Params
 	/*
 	 * 1 byte = 8 bits a. Tamanho da palavra em bits [16, 32 ou 64] em bytes [2,
-	 * 4, 8]; b. Tamanho da RAM em bits [64, 128, 256] em bytes [64, 128 ou
+	 * 4, 8]; b. Tamanho da RAM em bits [512, 1024, 2048] em bytes [64, 128 ou
 	 * 256]; c. Tamanho do buffer de entrada/saida em bits [32, 64, 128] em
 	 * bytes [4, 8 ou 16]; d. Largura do barramento em bits [8, 16 ou 32] em
 	 * bytes [1, 2, 4];
@@ -35,11 +35,12 @@ public class Constantes {
 		} else {
 			qtdeInstructionAtRAM = 1;
 		}
+		System.out.println(z);
 	}
 
 	private static void setOffset() {
-		offset = SIZE_word * 4 / 8;
-	}
+		offset = SIZE_word * 4 / 8 * qtdeInstructionAtRAM;
+	} 
 
 	public static int WIDTH_barramento = 8;
 	public static String limitMemoryDigits;

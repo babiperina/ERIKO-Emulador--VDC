@@ -1,10 +1,12 @@
 package principal;
 
+import componentes.Barramento;
 import componentes.Cpu;
 import componentes.Encoder;
 import componentes.ModuloES;
 import componentes.Parser;
 import componentes.Ram;
+import utils.Constantes;
 
 public class Computador {
 
@@ -15,6 +17,7 @@ public class Computador {
 	public static ModuloES es = new ModuloES();
 	public static Cpu cpu = new Cpu();
 	public static Ram ram = new Ram();
+	public static Barramento bar = new Barramento();
 
 	public static void main(String[] args) {
 
@@ -22,8 +25,8 @@ public class Computador {
 		while (parser.instrucaoAtual < parser.instrucoes.size()) {
 			System.out.println("+-------------------------------------------------------------------------+");
 			System.out.println("+-------------------------------------------------------------------------+");
-			System.out.println(
-					"Instrução atual: " + (parser.instrucaoAtual+1) + " QTDE Instruções: " + parser.instrucoes.size());
+			System.out.println("Instrução atual: " + (parser.instrucaoAtual + 1) + " QTDE Instruções: "
+					+ parser.instrucoes.size());
 
 			System.out.println("+-------------------------------------------------------------------------+");
 
@@ -31,7 +34,11 @@ public class Computador {
 			// encoder.encoderInstrucao();
 			es.pullInstructionFromEncoder();
 			// passar instru��o do encoder pra entrada e sa�da
-			es.sendInstructionToRAM();
+			if (Constantes.qtdeInstructionAtRAM == 2 && parser.instrucaoAtual != parser.instrucoes.size())
+				es.sendInstructionToRAM(true);
+			else
+				es.sendInstructionToRAM(false);
+			cpu.sendEndereco();
 
 			System.out.println("\n \n");
 		}
