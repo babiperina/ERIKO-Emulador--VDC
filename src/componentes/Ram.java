@@ -8,7 +8,8 @@ import utils.Constantes;
 public class Ram {
 
 	// O tamanho da RAM est� em bits
-	byte[] celulas = new byte[Constantes.SIZE_ram];
+	byte[] celulas = new byte[Constantes.offset];
+	int[] celulas_valores = new int[Constantes.SIZE_ram - Constantes.offset];
 
 	public Ram() {
 		for (int i = 0; i < Constantes.offset; i++) {
@@ -62,7 +63,7 @@ public class Ram {
 	@Override
 	public String toString() {
 		return "Ram [Size: " + getSize() + "bytes] [SizeToInstruction: " + Constantes.offset + "bytes] [WordSize: "
-				+ Constantes.SIZE_word + "bits] [celulas=" + Arrays.toString(celulas) + "]";
+				+ Constantes.SIZE_word + "bits] [celulasInstrucoes=" + Arrays.toString(celulas) + "] \n[celulasValores=" + Arrays.toString(celulas_valores) + "]";
 	}
 
 }

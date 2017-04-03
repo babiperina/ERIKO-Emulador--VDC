@@ -4,7 +4,11 @@ import principal.Computador;
 
 public class Barramento {
 	
-	public void sendValor(Cpu cpu, Ram ram, int valor){
+	public void sendValor(Cpu cpu, Ram ram, int endereco, int valor){
+		Computador.ram.celulas_valores[endereco] = valor;
+	}
+	public int pullValor(Ram ram, Cpu cpu, int endereco){
+		return Computador.ram.celulas_valores[endereco];
 	}
 
 	public void sendDados(Object de, Object para, byte[] dados) {

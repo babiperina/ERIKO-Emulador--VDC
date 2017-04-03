@@ -247,12 +247,11 @@ public class Cpu {
 	}
 
 	public void insertValorMemoria(int endereco, int valor) {
-
+		Computador.bar.sendValor(Computador.cpu, Computador.ram, endereco, valor);
 	}
 
 	public int pegarValorDaMemoria(int endereco) {
-
-		return 0;
+		return Computador.bar.pullValor(Computador.ram, Computador.cpu, endereco);
 	}
 
 	public int pegarValorDoRegistrador(int registrador) {
