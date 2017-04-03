@@ -1,6 +1,12 @@
 package componentes;
 
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+import java.nio.LongBuffer;
+import java.nio.ShortBuffer;
+
 import principal.Computador;
+import utils.Constantes;
 
 public class Cpu {
 
@@ -20,11 +26,116 @@ public class Cpu {
 
 	public void receiveDado(byte[] dados) {
 		byte[] d = dados;
-		System.out.print("TO NA CPU: ");
-		for (byte b : d) {
-			System.out.print(b + " ");
+		if (d[0] != -1) {
+			System.out.print("TO NA CPU: ");
+			for (byte b : d) {
+				System.out.print(b + " ");
+			}
+			decodificar(dados);
 		}
 		System.out.println();
+	}
+
+	public void decodificar(byte[] dados) {
+		ByteBuffer bb;
+		bb = ByteBuffer.wrap(dados);
+
+		switch (Constantes.SIZE_word) {
+		case 16:
+			ShortBuffer sb = bb.asShortBuffer();
+			short[] shortArray = new short[dados.length / 2];
+			sb.get(shortArray);
+			executeShort(shortArray);
+			break;
+
+		case 32:
+			IntBuffer ib = bb.asIntBuffer();
+			int[] intArray = new int[dados.length / 4];
+			ib.get(intArray);
+			executeInt(intArray);
+			break;
+
+		case 64:
+			LongBuffer lb = bb.asLongBuffer();
+			long[] longArray = new long[dados.length / 8];
+			lb.get(longArray);
+			executeLong(longArray);
+			break;
+		}
+
+		if (CI != null) {
+			if (CI.getConteudo() == Constantes.SIZE_word * 4 / 8) {
+				sendEndereco();
+			}
+		}
+	}
+
+	public void executeShort(short[] instrucao) {
+		long type = (long) instrucao[0];
+		if (type == Constantes.VALUE_mov_m_from_i || type == Constantes.VALUE_mov_m_from_m
+				|| type == Constantes.VALUE_mov_m_from_r || type == Constantes.VALUE_mov_r_from_i
+				|| type == Constantes.VALUE_mov_r_from_m || type == Constantes.VALUE_mov_r_from_r) {
+			executeMov(type, instrucao[1], instrucao[2]);
+		} else if (type == Constantes.VALUE_add_m_from_i || type == Constantes.VALUE_add_m_from_m
+				|| type == Constantes.VALUE_add_m_from_r || type == Constantes.VALUE_add_r_from_i
+				|| type == Constantes.VALUE_add_r_from_m || type == Constantes.VALUE_add_r_from_r) {
+			executeAdd(type, instrucao[1], instrucao[2]);
+		} else if (type == Constantes.VALUE_inc_m || type == Constantes.VALUE_inc_r) {
+			executeInc(type, instrucao[1]);
+		} else {
+			executeImul(type, instrucao[1], instrucao[2], instrucao[3]);
+		}
+
+	}
+
+	public void executeInt(int[] instrucao) {
+		long type = (long) instrucao[0];
+		if (type == Constantes.VALUE_mov_m_from_i || type == Constantes.VALUE_mov_m_from_m
+				|| type == Constantes.VALUE_mov_m_from_r || type == Constantes.VALUE_mov_r_from_i
+				|| type == Constantes.VALUE_mov_r_from_m || type == Constantes.VALUE_mov_r_from_r) {
+			executeMov(type, instrucao[1], instrucao[2]);
+		} else if (type == Constantes.VALUE_add_m_from_i || type == Constantes.VALUE_add_m_from_m
+				|| type == Constantes.VALUE_add_m_from_r || type == Constantes.VALUE_add_r_from_i
+				|| type == Constantes.VALUE_add_r_from_m || type == Constantes.VALUE_add_r_from_r) {
+			executeAdd(type, instrucao[1], instrucao[2]);
+		} else if (type == Constantes.VALUE_inc_m || type == Constantes.VALUE_inc_r) {
+			executeInc(type, instrucao[1]);
+		} else {
+			executeImul(type, instrucao[1], instrucao[2], instrucao[3]);
+		}
+	}
+
+	public void executeLong(long[] instrucao) {
+		int type = (int) instrucao[0];
+		if (type == Constantes.VALUE_mov_m_from_i || type == Constantes.VALUE_mov_m_from_m
+				|| type == Constantes.VALUE_mov_m_from_r || type == Constantes.VALUE_mov_r_from_i
+				|| type == Constantes.VALUE_mov_r_from_m || type == Constantes.VALUE_mov_r_from_r) {
+			executeMov(type, instrucao[1], instrucao[2]);
+		} else if (type == Constantes.VALUE_add_m_from_i || type == Constantes.VALUE_add_m_from_m
+				|| type == Constantes.VALUE_add_m_from_r || type == Constantes.VALUE_add_r_from_i
+				|| type == Constantes.VALUE_add_r_from_m || type == Constantes.VALUE_add_r_from_r) {
+			executeAdd(type, instrucao[1], instrucao[2]);
+		} else if (type == Constantes.VALUE_inc_m || type == Constantes.VALUE_inc_r) {
+			executeInc(type, instrucao[1]);
+		} else {
+			executeImul(type, instrucao[1], instrucao[2], instrucao[3]);
+		}
+	}
+
+	public void executeMov(long type, long x, long y) {
+
+	}
+
+	public void executeAdd(long type, long x, long y) {
+
+	}
+
+	public void executeInc(long type, long x) {
+
+	}
+
+	public void executeImul(long type, long x, long y, long z) {
+
 	}
 
 	public Registrador getA() {

@@ -35,19 +35,18 @@ public class Ram {
 
 	public void sendDadosToCpu(int endereco) {
 		byte[] dados = new byte[Constantes.SIZE_word * 4 / 8];
-		System.out.println("Endereço: " + endereco);
 		if (endereco == 0) {
 			for (int i = 0; i < dados.length; i++) {
 				dados[i] = celulas[i];
 				celulas[i] = -1;
 			}
 			Computador.cpu.getCI().setConteudo(dados.length);
-			System.out.println(Computador.cpu.getCI().getConteudo());
 		} else {
 			for (int i = dados.length; i < dados.length + dados.length; i++) {
-				dados[i] = celulas[i - dados.length];
-				celulas[i - dados.length] = -1;
+				dados[i-dados.length] = celulas[i];
+				celulas[i] = -1;
 			}
+			Computador.cpu.getCI().setConteudo(0);
 		}
 		Computador.bar.sendDados(Computador.ram, Computador.cpu, dados);
 

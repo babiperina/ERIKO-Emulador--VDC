@@ -13,8 +13,8 @@ public class Constantes {
 	 * bytes [4, 8 ou 16]; d. Largura do barramento em bits [8, 16 ou 32] em
 	 * bytes [1, 2, 4];
 	 */
-	public static int SIZE_word = 2;
-	public static int SIZE_ram = 64;
+	public static int SIZE_word = 8;
+	public static int SIZE_ram = 128;
 	public static int qtdeInstructionAtRAM;
 	public static int offset;
 	public static int SIZE_e_s_buffer;
@@ -35,7 +35,6 @@ public class Constantes {
 		} else {
 			qtdeInstructionAtRAM = 1;
 		}
-		System.out.println(z);
 	}
 
 	private static void setOffset() {

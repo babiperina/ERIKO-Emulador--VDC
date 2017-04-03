@@ -30,16 +30,16 @@ public class Computador {
 
 			System.out.println("+-------------------------------------------------------------------------+");
 
+			System.out.println(ram.toString());
 			encoder.pullInstructionsFromParser();
-			// encoder.encoderInstrucao();
 			es.pullInstructionFromEncoder();
-			// passar instru��o do encoder pra entrada e sa�da
 			if (Constantes.qtdeInstructionAtRAM == 2 && parser.instrucaoAtual != parser.instrucoes.size())
 				es.sendInstructionToRAM(true);
 			else
 				es.sendInstructionToRAM(false);
 			cpu.sendEndereco();
 
+			
 			System.out.println("\n \n");
 		}
 
