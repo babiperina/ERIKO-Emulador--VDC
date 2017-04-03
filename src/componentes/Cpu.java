@@ -123,19 +123,86 @@ public class Cpu {
 	}
 
 	public void executeMov(long type, long x, long y) {
+		if (type == Constantes.VALUE_mov_m_from_i) {
+
+		} else if (type == Constantes.VALUE_mov_m_from_m) {
+
+		} else if (type == Constantes.VALUE_mov_m_from_r) {
+
+		} else if (type == Constantes.VALUE_mov_r_from_r) {
+
+		} else if (type == Constantes.VALUE_mov_r_from_m) {
+
+		} else {
+			// Constantes.VALUE_mov_r_from_i
+		}
 
 	}
 
 	public void executeAdd(long type, long x, long y) {
+		if (type == Constantes.VALUE_add_m_from_i) {
 
+		} else if (type == Constantes.VALUE_add_m_from_m) {
+
+		} else if (type == Constantes.VALUE_add_m_from_r) {
+
+		} else if (type == Constantes.VALUE_add_r_from_r) {
+
+		} else if (type == Constantes.VALUE_add_r_from_m) {
+
+		} else {
+			// Constantes.VALUE_add_r_from_i
+		}
 	}
 
 	public void executeInc(long type, long x) {
+		if (type == Constantes.VALUE_inc_m) {
 
+		} else {
+			// Constantes.VALUE_inc_r
+
+		}
 	}
 
 	public void executeImul(long type, long x, long y, long z) {
 
+		if (type == Constantes.VALUE_imul_r_r_r) {
+
+		} else if (type == Constantes.VALUE_imul_r_r_m) {
+
+		} else if (type == Constantes.VALUE_imul_r_r_i) {
+
+		} else if (type == Constantes.VALUE_imul_r_m_r) {
+
+		} else if (type == Constantes.VALUE_imul_r_m_m) {
+
+		} else if (type == Constantes.VALUE_imul_r_m_i) {
+
+		} else if (type == Constantes.VALUE_imul_r_i_r) {
+
+		} else if (type == Constantes.VALUE_imul_r_i_m) {
+
+		} else if (type == Constantes.VALUE_imul_r_i_i) {
+
+		} else if (type == Constantes.VALUE_imul_m_r_r) {
+
+		} else if (type == Constantes.VALUE_imul_m_r_m) {
+
+		} else if (type == Constantes.VALUE_imul_m_r_i) {
+
+		} else if (type == Constantes.VALUE_imul_m_m_r) {
+
+		} else if (type == Constantes.VALUE_imul_m_m_m) {
+
+		} else if (type == Constantes.VALUE_imul_m_m_i) {
+
+		} else if (type == Constantes.VALUE_imul_m_i_r) {
+
+		} else if (type == Constantes.VALUE_imul_m_i_m) {
+
+		} else {
+			// Constantes.VALUE_imul_m_i_i
+		}
 	}
 
 	public Registrador getA() {
